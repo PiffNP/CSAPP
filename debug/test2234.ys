@@ -1,0 +1,1202 @@
+.pos 0
+irmovl $0x2000, %ebx
+irmovl $201, %eax
+rmmovl %eax, 8(%ebx)
+mrmovl 296(%ebx),%ecx
+irmovl $578, %eax
+rmmovl %eax, 228(%ebx)
+mrmovl 300(%ebx),%ecx
+irmovl $383, %eax
+rmmovl %eax, 176(%ebx)
+mrmovl 208(%ebx),%ecx
+irmovl $884, %eax
+rmmovl %eax, 400(%ebx)
+mrmovl 372(%ebx),%ecx
+irmovl $474, %eax
+rmmovl %eax, 8(%ebx)
+mrmovl 124(%ebx),%ecx
+irmovl $83, %eax
+rmmovl %eax, 252(%ebx)
+mrmovl 292(%ebx),%ecx
+irmovl $128, %eax
+rmmovl %eax, 308(%ebx)
+mrmovl 368(%ebx),%ecx
+irmovl $879, %eax
+rmmovl %eax, 356(%ebx)
+mrmovl 348(%ebx),%ecx
+irmovl $742, %eax
+rmmovl %eax, 244(%ebx)
+mrmovl 152(%ebx),%ecx
+irmovl $535, %eax
+rmmovl %eax, 392(%ebx)
+mrmovl 96(%ebx),%ecx
+irmovl $281, %eax
+rmmovl %eax, 108(%ebx)
+mrmovl 148(%ebx),%ecx
+irmovl $428, %eax
+rmmovl %eax, 92(%ebx)
+mrmovl 356(%ebx),%ecx
+irmovl $822, %eax
+rmmovl %eax, 312(%ebx)
+mrmovl 144(%ebx),%ecx
+irmovl $910, %eax
+rmmovl %eax, 32(%ebx)
+mrmovl 124(%ebx),%ecx
+irmovl $452, %eax
+rmmovl %eax, 24(%ebx)
+mrmovl 112(%ebx),%ecx
+irmovl $658, %eax
+rmmovl %eax, 244(%ebx)
+mrmovl 172(%ebx),%ecx
+irmovl $205, %eax
+rmmovl %eax, 352(%ebx)
+mrmovl 160(%ebx),%ecx
+irmovl $952, %eax
+rmmovl %eax, 188(%ebx)
+mrmovl 244(%ebx),%ecx
+irmovl $523, %eax
+rmmovl %eax, 364(%ebx)
+mrmovl 152(%ebx),%ecx
+irmovl $557, %eax
+rmmovl %eax, 396(%ebx)
+mrmovl 64(%ebx),%ecx
+irmovl $441, %eax
+rmmovl %eax, 360(%ebx)
+mrmovl 328(%ebx),%ecx
+irmovl $233, %eax
+rmmovl %eax, 328(%ebx)
+mrmovl 68(%ebx),%ecx
+irmovl $929, %eax
+rmmovl %eax, 8(%ebx)
+mrmovl 220(%ebx),%ecx
+irmovl $345, %eax
+rmmovl %eax, 324(%ebx)
+mrmovl 68(%ebx),%ecx
+irmovl $112, %eax
+rmmovl %eax, 280(%ebx)
+mrmovl 276(%ebx),%ecx
+irmovl $312, %eax
+rmmovl %eax, 12(%ebx)
+mrmovl 92(%ebx),%ecx
+irmovl $337, %eax
+rmmovl %eax, 276(%ebx)
+mrmovl 128(%ebx),%ecx
+irmovl $215, %eax
+rmmovl %eax, 64(%ebx)
+mrmovl 60(%ebx),%ecx
+irmovl $11, %eax
+rmmovl %eax, 20(%ebx)
+mrmovl 144(%ebx),%ecx
+irmovl $959, %eax
+rmmovl %eax, 48(%ebx)
+mrmovl 40(%ebx),%ecx
+irmovl $816, %eax
+rmmovl %eax, 300(%ebx)
+mrmovl 232(%ebx),%ecx
+irmovl $341, %eax
+rmmovl %eax, 340(%ebx)
+mrmovl 48(%ebx),%ecx
+irmovl $605, %eax
+rmmovl %eax, 256(%ebx)
+mrmovl 52(%ebx),%ecx
+irmovl $734, %eax
+rmmovl %eax, 116(%ebx)
+mrmovl 40(%ebx),%ecx
+irmovl $792, %eax
+rmmovl %eax, 224(%ebx)
+mrmovl 312(%ebx),%ecx
+irmovl $588, %eax
+rmmovl %eax, 148(%ebx)
+mrmovl 356(%ebx),%ecx
+irmovl $632, %eax
+rmmovl %eax, 192(%ebx)
+mrmovl 88(%ebx),%ecx
+irmovl $593, %eax
+rmmovl %eax, 248(%ebx)
+mrmovl 180(%ebx),%ecx
+irmovl $498, %eax
+rmmovl %eax, 264(%ebx)
+mrmovl 148(%ebx),%ecx
+irmovl $744, %eax
+rmmovl %eax, 340(%ebx)
+mrmovl 360(%ebx),%ecx
+irmovl $673, %eax
+rmmovl %eax, 328(%ebx)
+mrmovl 84(%ebx),%ecx
+irmovl $278, %eax
+rmmovl %eax, 140(%ebx)
+mrmovl 48(%ebx),%ecx
+irmovl $927, %eax
+rmmovl %eax, 116(%ebx)
+mrmovl 192(%ebx),%ecx
+irmovl $307, %eax
+rmmovl %eax, 176(%ebx)
+mrmovl 276(%ebx),%ecx
+irmovl $240, %eax
+rmmovl %eax, 116(%ebx)
+mrmovl 184(%ebx),%ecx
+irmovl $901, %eax
+rmmovl %eax, 68(%ebx)
+mrmovl 288(%ebx),%ecx
+irmovl $13, %eax
+rmmovl %eax, 8(%ebx)
+mrmovl 32(%ebx),%ecx
+irmovl $673, %eax
+rmmovl %eax, 332(%ebx)
+mrmovl 60(%ebx),%ecx
+irmovl $772, %eax
+rmmovl %eax, 360(%ebx)
+mrmovl 348(%ebx),%ecx
+irmovl $989, %eax
+rmmovl %eax, 80(%ebx)
+mrmovl 288(%ebx),%ecx
+irmovl $741, %eax
+rmmovl %eax, 156(%ebx)
+mrmovl 308(%ebx),%ecx
+irmovl $351, %eax
+rmmovl %eax, 108(%ebx)
+mrmovl 152(%ebx),%ecx
+irmovl $644, %eax
+rmmovl %eax, 400(%ebx)
+mrmovl 264(%ebx),%ecx
+irmovl $422, %eax
+rmmovl %eax, 240(%ebx)
+mrmovl 12(%ebx),%ecx
+irmovl $878, %eax
+rmmovl %eax, 304(%ebx)
+mrmovl 80(%ebx),%ecx
+irmovl $483, %eax
+rmmovl %eax, 52(%ebx)
+mrmovl 336(%ebx),%ecx
+irmovl $417, %eax
+rmmovl %eax, 204(%ebx)
+mrmovl 400(%ebx),%ecx
+irmovl $644, %eax
+rmmovl %eax, 144(%ebx)
+mrmovl 252(%ebx),%ecx
+irmovl $344, %eax
+rmmovl %eax, 332(%ebx)
+mrmovl 256(%ebx),%ecx
+irmovl $596, %eax
+rmmovl %eax, 8(%ebx)
+mrmovl 288(%ebx),%ecx
+irmovl $645, %eax
+rmmovl %eax, 280(%ebx)
+mrmovl 316(%ebx),%ecx
+irmovl $158, %eax
+rmmovl %eax, 120(%ebx)
+mrmovl 56(%ebx),%ecx
+irmovl $932, %eax
+rmmovl %eax, 304(%ebx)
+mrmovl 172(%ebx),%ecx
+irmovl $210, %eax
+rmmovl %eax, 164(%ebx)
+mrmovl 316(%ebx),%ecx
+irmovl $569, %eax
+rmmovl %eax, 252(%ebx)
+mrmovl 244(%ebx),%ecx
+irmovl $367, %eax
+rmmovl %eax, 40(%ebx)
+mrmovl 268(%ebx),%ecx
+irmovl $746, %eax
+rmmovl %eax, 68(%ebx)
+mrmovl 32(%ebx),%ecx
+irmovl $116, %eax
+rmmovl %eax, 196(%ebx)
+mrmovl 8(%ebx),%ecx
+irmovl $375, %eax
+rmmovl %eax, 104(%ebx)
+mrmovl 348(%ebx),%ecx
+irmovl $900, %eax
+rmmovl %eax, 40(%ebx)
+mrmovl 272(%ebx),%ecx
+irmovl $310, %eax
+rmmovl %eax, 56(%ebx)
+mrmovl 20(%ebx),%ecx
+irmovl $182, %eax
+rmmovl %eax, 136(%ebx)
+mrmovl 252(%ebx),%ecx
+irmovl $550, %eax
+rmmovl %eax, 172(%ebx)
+mrmovl 324(%ebx),%ecx
+irmovl $975, %eax
+rmmovl %eax, 296(%ebx)
+mrmovl 364(%ebx),%ecx
+irmovl $879, %eax
+rmmovl %eax, 148(%ebx)
+mrmovl 96(%ebx),%ecx
+irmovl $49, %eax
+rmmovl %eax, 244(%ebx)
+mrmovl 288(%ebx),%ecx
+irmovl $971, %eax
+rmmovl %eax, 296(%ebx)
+mrmovl 196(%ebx),%ecx
+irmovl $1002, %eax
+rmmovl %eax, 396(%ebx)
+mrmovl 28(%ebx),%ecx
+irmovl $464, %eax
+rmmovl %eax, 160(%ebx)
+mrmovl 132(%ebx),%ecx
+irmovl $76, %eax
+rmmovl %eax, 20(%ebx)
+mrmovl 212(%ebx),%ecx
+irmovl $557, %eax
+rmmovl %eax, 112(%ebx)
+mrmovl 100(%ebx),%ecx
+irmovl $1001, %eax
+rmmovl %eax, 84(%ebx)
+mrmovl 64(%ebx),%ecx
+irmovl $731, %eax
+rmmovl %eax, 396(%ebx)
+mrmovl 164(%ebx),%ecx
+irmovl $679, %eax
+rmmovl %eax, 8(%ebx)
+mrmovl 144(%ebx),%ecx
+irmovl $701, %eax
+rmmovl %eax, 384(%ebx)
+mrmovl 320(%ebx),%ecx
+irmovl $642, %eax
+rmmovl %eax, 160(%ebx)
+mrmovl 28(%ebx),%ecx
+irmovl $530, %eax
+rmmovl %eax, 296(%ebx)
+mrmovl 24(%ebx),%ecx
+irmovl $55, %eax
+rmmovl %eax, 392(%ebx)
+mrmovl 76(%ebx),%ecx
+irmovl $155, %eax
+rmmovl %eax, 168(%ebx)
+mrmovl 48(%ebx),%ecx
+irmovl $110, %eax
+rmmovl %eax, 280(%ebx)
+mrmovl 112(%ebx),%ecx
+irmovl $313, %eax
+rmmovl %eax, 264(%ebx)
+mrmovl 92(%ebx),%ecx
+irmovl $865, %eax
+rmmovl %eax, 228(%ebx)
+mrmovl 188(%ebx),%ecx
+irmovl $38, %eax
+rmmovl %eax, 276(%ebx)
+mrmovl 288(%ebx),%ecx
+irmovl $844, %eax
+rmmovl %eax, 384(%ebx)
+mrmovl 72(%ebx),%ecx
+irmovl $55, %eax
+rmmovl %eax, 400(%ebx)
+mrmovl 384(%ebx),%ecx
+irmovl $406, %eax
+rmmovl %eax, 28(%ebx)
+mrmovl 380(%ebx),%ecx
+irmovl $196, %eax
+rmmovl %eax, 12(%ebx)
+mrmovl 280(%ebx),%ecx
+irmovl $389, %eax
+rmmovl %eax, 340(%ebx)
+mrmovl 24(%ebx),%ecx
+irmovl $364, %eax
+rmmovl %eax, 200(%ebx)
+mrmovl 344(%ebx),%ecx
+irmovl $595, %eax
+rmmovl %eax, 176(%ebx)
+mrmovl 40(%ebx),%ecx
+irmovl $468, %eax
+rmmovl %eax, 384(%ebx)
+mrmovl 244(%ebx),%ecx
+irmovl $41, %eax
+rmmovl %eax, 320(%ebx)
+mrmovl 156(%ebx),%ecx
+irmovl $925, %eax
+rmmovl %eax, 136(%ebx)
+mrmovl 260(%ebx),%ecx
+irmovl $980, %eax
+rmmovl %eax, 32(%ebx)
+mrmovl 84(%ebx),%ecx
+irmovl $377, %eax
+rmmovl %eax, 288(%ebx)
+mrmovl 88(%ebx),%ecx
+irmovl $1001, %eax
+rmmovl %eax, 188(%ebx)
+mrmovl 168(%ebx),%ecx
+irmovl $863, %eax
+rmmovl %eax, 192(%ebx)
+mrmovl 228(%ebx),%ecx
+irmovl $25, %eax
+rmmovl %eax, 312(%ebx)
+mrmovl 216(%ebx),%ecx
+irmovl $377, %eax
+rmmovl %eax, 152(%ebx)
+mrmovl 212(%ebx),%ecx
+irmovl $480, %eax
+rmmovl %eax, 116(%ebx)
+mrmovl 100(%ebx),%ecx
+irmovl $226, %eax
+rmmovl %eax, 332(%ebx)
+mrmovl 324(%ebx),%ecx
+irmovl $333, %eax
+rmmovl %eax, 332(%ebx)
+mrmovl 212(%ebx),%ecx
+irmovl $772, %eax
+rmmovl %eax, 224(%ebx)
+mrmovl 396(%ebx),%ecx
+irmovl $136, %eax
+rmmovl %eax, 304(%ebx)
+mrmovl 280(%ebx),%ecx
+irmovl $735, %eax
+rmmovl %eax, 44(%ebx)
+mrmovl 340(%ebx),%ecx
+irmovl $908, %eax
+rmmovl %eax, 92(%ebx)
+mrmovl 340(%ebx),%ecx
+irmovl $146, %eax
+rmmovl %eax, 400(%ebx)
+mrmovl 48(%ebx),%ecx
+irmovl $500, %eax
+rmmovl %eax, 24(%ebx)
+mrmovl 96(%ebx),%ecx
+irmovl $445, %eax
+rmmovl %eax, 140(%ebx)
+mrmovl 388(%ebx),%ecx
+irmovl $965, %eax
+rmmovl %eax, 228(%ebx)
+mrmovl 336(%ebx),%ecx
+irmovl $607, %eax
+rmmovl %eax, 104(%ebx)
+mrmovl 292(%ebx),%ecx
+irmovl $601, %eax
+rmmovl %eax, 96(%ebx)
+mrmovl 260(%ebx),%ecx
+irmovl $199, %eax
+rmmovl %eax, 16(%ebx)
+mrmovl 20(%ebx),%ecx
+irmovl $697, %eax
+rmmovl %eax, 224(%ebx)
+mrmovl 336(%ebx),%ecx
+irmovl $46, %eax
+rmmovl %eax, 32(%ebx)
+mrmovl 12(%ebx),%ecx
+irmovl $535, %eax
+rmmovl %eax, 48(%ebx)
+mrmovl 356(%ebx),%ecx
+irmovl $477, %eax
+rmmovl %eax, 288(%ebx)
+mrmovl 232(%ebx),%ecx
+irmovl $87, %eax
+rmmovl %eax, 340(%ebx)
+mrmovl 116(%ebx),%ecx
+irmovl $244, %eax
+rmmovl %eax, 196(%ebx)
+mrmovl 176(%ebx),%ecx
+irmovl $316, %eax
+rmmovl %eax, 396(%ebx)
+mrmovl 140(%ebx),%ecx
+irmovl $933, %eax
+rmmovl %eax, 340(%ebx)
+mrmovl 252(%ebx),%ecx
+irmovl $889, %eax
+rmmovl %eax, 60(%ebx)
+mrmovl 240(%ebx),%ecx
+irmovl $334, %eax
+rmmovl %eax, 20(%ebx)
+mrmovl 92(%ebx),%ecx
+irmovl $393, %eax
+rmmovl %eax, 308(%ebx)
+mrmovl 20(%ebx),%ecx
+irmovl $192, %eax
+rmmovl %eax, 272(%ebx)
+mrmovl 116(%ebx),%ecx
+irmovl $545, %eax
+rmmovl %eax, 44(%ebx)
+mrmovl 96(%ebx),%ecx
+irmovl $1020, %eax
+rmmovl %eax, 124(%ebx)
+mrmovl 192(%ebx),%ecx
+irmovl $202, %eax
+rmmovl %eax, 92(%ebx)
+mrmovl 360(%ebx),%ecx
+irmovl $675, %eax
+rmmovl %eax, 104(%ebx)
+mrmovl 204(%ebx),%ecx
+irmovl $913, %eax
+rmmovl %eax, 120(%ebx)
+mrmovl 52(%ebx),%ecx
+irmovl $833, %eax
+rmmovl %eax, 156(%ebx)
+mrmovl 200(%ebx),%ecx
+irmovl $524, %eax
+rmmovl %eax, 296(%ebx)
+mrmovl 328(%ebx),%ecx
+irmovl $369, %eax
+rmmovl %eax, 96(%ebx)
+mrmovl 220(%ebx),%ecx
+irmovl $451, %eax
+rmmovl %eax, 88(%ebx)
+mrmovl 148(%ebx),%ecx
+irmovl $324, %eax
+rmmovl %eax, 152(%ebx)
+mrmovl 56(%ebx),%ecx
+irmovl $434, %eax
+rmmovl %eax, 364(%ebx)
+mrmovl 324(%ebx),%ecx
+irmovl $126, %eax
+rmmovl %eax, 168(%ebx)
+mrmovl 372(%ebx),%ecx
+irmovl $70, %eax
+rmmovl %eax, 76(%ebx)
+mrmovl 252(%ebx),%ecx
+irmovl $394, %eax
+rmmovl %eax, 72(%ebx)
+mrmovl 388(%ebx),%ecx
+irmovl $13, %eax
+rmmovl %eax, 92(%ebx)
+mrmovl 40(%ebx),%ecx
+irmovl $515, %eax
+rmmovl %eax, 296(%ebx)
+mrmovl 44(%ebx),%ecx
+irmovl $1023, %eax
+rmmovl %eax, 180(%ebx)
+mrmovl 164(%ebx),%ecx
+irmovl $188, %eax
+rmmovl %eax, 340(%ebx)
+mrmovl 136(%ebx),%ecx
+irmovl $450, %eax
+rmmovl %eax, 60(%ebx)
+mrmovl 388(%ebx),%ecx
+irmovl $736, %eax
+rmmovl %eax, 128(%ebx)
+mrmovl 256(%ebx),%ecx
+irmovl $318, %eax
+rmmovl %eax, 304(%ebx)
+mrmovl 332(%ebx),%ecx
+irmovl $78, %eax
+rmmovl %eax, 80(%ebx)
+mrmovl 188(%ebx),%ecx
+irmovl $737, %eax
+rmmovl %eax, 12(%ebx)
+mrmovl 256(%ebx),%ecx
+irmovl $51, %eax
+rmmovl %eax, 168(%ebx)
+mrmovl 372(%ebx),%ecx
+irmovl $309, %eax
+rmmovl %eax, 396(%ebx)
+mrmovl 260(%ebx),%ecx
+irmovl $378, %eax
+rmmovl %eax, 152(%ebx)
+mrmovl 400(%ebx),%ecx
+irmovl $139, %eax
+rmmovl %eax, 236(%ebx)
+mrmovl 280(%ebx),%ecx
+irmovl $515, %eax
+rmmovl %eax, 52(%ebx)
+mrmovl 388(%ebx),%ecx
+irmovl $650, %eax
+rmmovl %eax, 320(%ebx)
+mrmovl 352(%ebx),%ecx
+irmovl $518, %eax
+rmmovl %eax, 308(%ebx)
+mrmovl 40(%ebx),%ecx
+irmovl $789, %eax
+rmmovl %eax, 144(%ebx)
+mrmovl 172(%ebx),%ecx
+irmovl $785, %eax
+rmmovl %eax, 372(%ebx)
+mrmovl 52(%ebx),%ecx
+irmovl $187, %eax
+rmmovl %eax, 388(%ebx)
+mrmovl 136(%ebx),%ecx
+irmovl $368, %eax
+rmmovl %eax, 328(%ebx)
+mrmovl 164(%ebx),%ecx
+irmovl $410, %eax
+rmmovl %eax, 180(%ebx)
+mrmovl 240(%ebx),%ecx
+irmovl $614, %eax
+rmmovl %eax, 300(%ebx)
+mrmovl 248(%ebx),%ecx
+irmovl $976, %eax
+rmmovl %eax, 336(%ebx)
+mrmovl 168(%ebx),%ecx
+irmovl $600, %eax
+rmmovl %eax, 240(%ebx)
+mrmovl 48(%ebx),%ecx
+irmovl $843, %eax
+rmmovl %eax, 160(%ebx)
+mrmovl 152(%ebx),%ecx
+irmovl $305, %eax
+rmmovl %eax, 232(%ebx)
+mrmovl 128(%ebx),%ecx
+irmovl $642, %eax
+rmmovl %eax, 88(%ebx)
+mrmovl 16(%ebx),%ecx
+irmovl $453, %eax
+rmmovl %eax, 40(%ebx)
+mrmovl 320(%ebx),%ecx
+irmovl $781, %eax
+rmmovl %eax, 64(%ebx)
+mrmovl 384(%ebx),%ecx
+irmovl $873, %eax
+rmmovl %eax, 260(%ebx)
+mrmovl 356(%ebx),%ecx
+irmovl $742, %eax
+rmmovl %eax, 168(%ebx)
+mrmovl 40(%ebx),%ecx
+irmovl $663, %eax
+rmmovl %eax, 356(%ebx)
+mrmovl 28(%ebx),%ecx
+irmovl $255, %eax
+rmmovl %eax, 132(%ebx)
+mrmovl 96(%ebx),%ecx
+irmovl $42, %eax
+rmmovl %eax, 20(%ebx)
+mrmovl 12(%ebx),%ecx
+irmovl $585, %eax
+rmmovl %eax, 252(%ebx)
+mrmovl 252(%ebx),%ecx
+irmovl $904, %eax
+rmmovl %eax, 104(%ebx)
+mrmovl 68(%ebx),%ecx
+irmovl $214, %eax
+rmmovl %eax, 228(%ebx)
+mrmovl 56(%ebx),%ecx
+irmovl $407, %eax
+rmmovl %eax, 272(%ebx)
+mrmovl 124(%ebx),%ecx
+irmovl $639, %eax
+rmmovl %eax, 68(%ebx)
+mrmovl 132(%ebx),%ecx
+irmovl $152, %eax
+rmmovl %eax, 260(%ebx)
+mrmovl 40(%ebx),%ecx
+irmovl $801, %eax
+rmmovl %eax, 344(%ebx)
+mrmovl 76(%ebx),%ecx
+irmovl $928, %eax
+rmmovl %eax, 40(%ebx)
+mrmovl 308(%ebx),%ecx
+irmovl $283, %eax
+rmmovl %eax, 400(%ebx)
+mrmovl 84(%ebx),%ecx
+irmovl $902, %eax
+rmmovl %eax, 364(%ebx)
+mrmovl 64(%ebx),%ecx
+irmovl $564, %eax
+rmmovl %eax, 188(%ebx)
+mrmovl 296(%ebx),%ecx
+irmovl $243, %eax
+rmmovl %eax, 348(%ebx)
+mrmovl 184(%ebx),%ecx
+irmovl $181, %eax
+rmmovl %eax, 104(%ebx)
+mrmovl 224(%ebx),%ecx
+irmovl $726, %eax
+rmmovl %eax, 208(%ebx)
+mrmovl 268(%ebx),%ecx
+irmovl $616, %eax
+rmmovl %eax, 180(%ebx)
+mrmovl 32(%ebx),%ecx
+irmovl $870, %eax
+rmmovl %eax, 372(%ebx)
+mrmovl 248(%ebx),%ecx
+irmovl $28, %eax
+rmmovl %eax, 248(%ebx)
+mrmovl 36(%ebx),%ecx
+irmovl $559, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $718, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $349, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $754, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $960, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $675, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $489, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $120, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $756, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $351, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $257, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $606, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $269, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $608, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $143, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $132, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $43, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $725, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $55, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $810, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $210, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $334, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $374, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $555, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $135, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $213, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $269, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $306, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $369, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $616, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $423, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $371, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $352, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $44, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $901, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $285, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $918, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $252, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $368, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $142, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $752, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $808, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $617, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $799, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $1005, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $417, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $253, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $530, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $822, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $641, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $514, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $180, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $437, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $388, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $430, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $812, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $181, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $509, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $439, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $671, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $831, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $894, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $131, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $496, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $166, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $856, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $132, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $718, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $809, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $112, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $239, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $681, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $495, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $1022, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $99, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $777, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $716, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $289, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $720, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $693, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $124, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $508, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $114, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $661, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $193, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $16, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $337, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $779, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $680, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $228, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $888, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $421, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $522, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $572, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $179, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $226, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $213, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $874, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $338, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $212, %eax
+rmmovl %eax, (%ebx)
+mrmovl (%ebx),%ecx
+irmovl $910, %eax
+rmmovl %eax, 0(%ebx)
+mrmovl 0(%ebx),%ecx
+irmovl $760, %eax
+rmmovl %eax, 4(%ebx)
+mrmovl 4(%ebx),%ecx
+irmovl $832, %eax
+rmmovl %eax, 8(%ebx)
+mrmovl 8(%ebx),%ecx
+irmovl $593, %eax
+rmmovl %eax, 12(%ebx)
+mrmovl 12(%ebx),%ecx
+irmovl $267, %eax
+rmmovl %eax, 16(%ebx)
+mrmovl 16(%ebx),%ecx
+irmovl $145, %eax
+rmmovl %eax, 20(%ebx)
+mrmovl 20(%ebx),%ecx
+irmovl $676, %eax
+rmmovl %eax, 24(%ebx)
+mrmovl 24(%ebx),%ecx
+irmovl $93, %eax
+rmmovl %eax, 28(%ebx)
+mrmovl 28(%ebx),%ecx
+irmovl $897, %eax
+rmmovl %eax, 32(%ebx)
+mrmovl 32(%ebx),%ecx
+irmovl $935, %eax
+rmmovl %eax, 36(%ebx)
+mrmovl 36(%ebx),%ecx
+irmovl $453, %eax
+rmmovl %eax, 40(%ebx)
+mrmovl 40(%ebx),%ecx
+irmovl $847, %eax
+rmmovl %eax, 44(%ebx)
+mrmovl 44(%ebx),%ecx
+irmovl $730, %eax
+rmmovl %eax, 48(%ebx)
+mrmovl 48(%ebx),%ecx
+irmovl $618, %eax
+rmmovl %eax, 52(%ebx)
+mrmovl 52(%ebx),%ecx
+irmovl $926, %eax
+rmmovl %eax, 56(%ebx)
+mrmovl 56(%ebx),%ecx
+irmovl $9, %eax
+rmmovl %eax, 60(%ebx)
+mrmovl 60(%ebx),%ecx
+irmovl $574, %eax
+rmmovl %eax, 64(%ebx)
+mrmovl 64(%ebx),%ecx
+irmovl $689, %eax
+rmmovl %eax, 68(%ebx)
+mrmovl 68(%ebx),%ecx
+irmovl $763, %eax
+rmmovl %eax, 72(%ebx)
+mrmovl 72(%ebx),%ecx
+irmovl $71, %eax
+rmmovl %eax, 76(%ebx)
+mrmovl 76(%ebx),%ecx
+irmovl $632, %eax
+rmmovl %eax, 80(%ebx)
+mrmovl 80(%ebx),%ecx
+irmovl $181, %eax
+rmmovl %eax, 84(%ebx)
+mrmovl 84(%ebx),%ecx
+irmovl $79, %eax
+rmmovl %eax, 88(%ebx)
+mrmovl 88(%ebx),%ecx
+irmovl $753, %eax
+rmmovl %eax, 92(%ebx)
+mrmovl 92(%ebx),%ecx
+irmovl $530, %eax
+rmmovl %eax, 96(%ebx)
+mrmovl 96(%ebx),%ecx
+irmovl $456, %eax
+rmmovl %eax, 100(%ebx)
+mrmovl 100(%ebx),%ecx
+irmovl $927, %eax
+rmmovl %eax, 104(%ebx)
+mrmovl 104(%ebx),%ecx
+irmovl $532, %eax
+rmmovl %eax, 108(%ebx)
+mrmovl 108(%ebx),%ecx
+irmovl $619, %eax
+rmmovl %eax, 112(%ebx)
+mrmovl 112(%ebx),%ecx
+irmovl $888, %eax
+rmmovl %eax, 116(%ebx)
+mrmovl 116(%ebx),%ecx
+irmovl $966, %eax
+rmmovl %eax, 120(%ebx)
+mrmovl 120(%ebx),%ecx
+irmovl $100, %eax
+rmmovl %eax, 124(%ebx)
+mrmovl 124(%ebx),%ecx
+irmovl $563, %eax
+rmmovl %eax, 128(%ebx)
+mrmovl 128(%ebx),%ecx
+irmovl $995, %eax
+rmmovl %eax, 132(%ebx)
+mrmovl 132(%ebx),%ecx
+irmovl $174, %eax
+rmmovl %eax, 136(%ebx)
+mrmovl 136(%ebx),%ecx
+irmovl $554, %eax
+rmmovl %eax, 140(%ebx)
+mrmovl 140(%ebx),%ecx
+irmovl $891, %eax
+rmmovl %eax, 144(%ebx)
+mrmovl 144(%ebx),%ecx
+irmovl $12, %eax
+rmmovl %eax, 148(%ebx)
+mrmovl 148(%ebx),%ecx
+irmovl $988, %eax
+rmmovl %eax, 152(%ebx)
+mrmovl 152(%ebx),%ecx
+irmovl $238, %eax
+rmmovl %eax, 156(%ebx)
+mrmovl 156(%ebx),%ecx
+irmovl $70, %eax
+rmmovl %eax, 160(%ebx)
+mrmovl 160(%ebx),%ecx
+irmovl $182, %eax
+rmmovl %eax, 164(%ebx)
+mrmovl 164(%ebx),%ecx
+irmovl $461, %eax
+rmmovl %eax, 168(%ebx)
+mrmovl 168(%ebx),%ecx
+irmovl $85, %eax
+rmmovl %eax, 172(%ebx)
+mrmovl 172(%ebx),%ecx
+irmovl $353, %eax
+rmmovl %eax, 176(%ebx)
+mrmovl 176(%ebx),%ecx
+irmovl $311, %eax
+rmmovl %eax, 180(%ebx)
+mrmovl 180(%ebx),%ecx
+irmovl $797, %eax
+rmmovl %eax, 184(%ebx)
+mrmovl 184(%ebx),%ecx
+irmovl $308, %eax
+rmmovl %eax, 188(%ebx)
+mrmovl 188(%ebx),%ecx
+irmovl $113, %eax
+rmmovl %eax, 192(%ebx)
+mrmovl 192(%ebx),%ecx
+irmovl $821, %eax
+rmmovl %eax, 196(%ebx)
+mrmovl 196(%ebx),%ecx
+irmovl $502, %eax
+rmmovl %eax, 200(%ebx)
+mrmovl 200(%ebx),%ecx
+irmovl $383, %eax
+rmmovl %eax, 204(%ebx)
+mrmovl 204(%ebx),%ecx
+irmovl $665, %eax
+rmmovl %eax, 208(%ebx)
+mrmovl 208(%ebx),%ecx
+irmovl $925, %eax
+rmmovl %eax, 212(%ebx)
+mrmovl 212(%ebx),%ecx
+irmovl $913, %eax
+rmmovl %eax, 216(%ebx)
+mrmovl 216(%ebx),%ecx
+irmovl $774, %eax
+rmmovl %eax, 220(%ebx)
+mrmovl 220(%ebx),%ecx
+irmovl $722, %eax
+rmmovl %eax, 224(%ebx)
+mrmovl 224(%ebx),%ecx
+irmovl $867, %eax
+rmmovl %eax, 228(%ebx)
+mrmovl 228(%ebx),%ecx
+irmovl $377, %eax
+rmmovl %eax, 232(%ebx)
+mrmovl 232(%ebx),%ecx
+irmovl $702, %eax
+rmmovl %eax, 236(%ebx)
+mrmovl 236(%ebx),%ecx
+irmovl $236, %eax
+rmmovl %eax, 240(%ebx)
+mrmovl 240(%ebx),%ecx
+irmovl $908, %eax
+rmmovl %eax, 244(%ebx)
+mrmovl 244(%ebx),%ecx
+irmovl $486, %eax
+rmmovl %eax, 248(%ebx)
+mrmovl 248(%ebx),%ecx
+irmovl $221, %eax
+rmmovl %eax, 252(%ebx)
+mrmovl 252(%ebx),%ecx
+irmovl $608, %eax
+rmmovl %eax, 256(%ebx)
+mrmovl 256(%ebx),%ecx
+irmovl $211, %eax
+rmmovl %eax, 260(%ebx)
+mrmovl 260(%ebx),%ecx
+irmovl $706, %eax
+rmmovl %eax, 264(%ebx)
+mrmovl 264(%ebx),%ecx
+irmovl $953, %eax
+rmmovl %eax, 268(%ebx)
+mrmovl 268(%ebx),%ecx
+irmovl $11, %eax
+rmmovl %eax, 272(%ebx)
+mrmovl 272(%ebx),%ecx
+irmovl $193, %eax
+rmmovl %eax, 276(%ebx)
+mrmovl 276(%ebx),%ecx
+irmovl $736, %eax
+rmmovl %eax, 280(%ebx)
+mrmovl 280(%ebx),%ecx
+irmovl $398, %eax
+rmmovl %eax, 284(%ebx)
+mrmovl 284(%ebx),%ecx
+irmovl $358, %eax
+rmmovl %eax, 288(%ebx)
+mrmovl 288(%ebx),%ecx
+irmovl $76, %eax
+rmmovl %eax, 292(%ebx)
+mrmovl 292(%ebx),%ecx
+irmovl $337, %eax
+rmmovl %eax, 296(%ebx)
+mrmovl 296(%ebx),%ecx
+irmovl $451, %eax
+rmmovl %eax, 300(%ebx)
+mrmovl 300(%ebx),%ecx
+irmovl $180, %eax
+rmmovl %eax, 304(%ebx)
+mrmovl 304(%ebx),%ecx
+irmovl $435, %eax
+rmmovl %eax, 308(%ebx)
+mrmovl 308(%ebx),%ecx
+irmovl $399, %eax
+rmmovl %eax, 312(%ebx)
+mrmovl 312(%ebx),%ecx
+irmovl $250, %eax
+rmmovl %eax, 316(%ebx)
+mrmovl 316(%ebx),%ecx
+irmovl $564, %eax
+rmmovl %eax, 320(%ebx)
+mrmovl 320(%ebx),%ecx
+irmovl $616, %eax
+rmmovl %eax, 324(%ebx)
+mrmovl 324(%ebx),%ecx
+irmovl $1012, %eax
+rmmovl %eax, 328(%ebx)
+mrmovl 328(%ebx),%ecx
+irmovl $21, %eax
+rmmovl %eax, 332(%ebx)
+mrmovl 332(%ebx),%ecx
+irmovl $212, %eax
+rmmovl %eax, 336(%ebx)
+mrmovl 336(%ebx),%ecx
+irmovl $149, %eax
+rmmovl %eax, 340(%ebx)
+mrmovl 340(%ebx),%ecx
+irmovl $940, %eax
+rmmovl %eax, 344(%ebx)
+mrmovl 344(%ebx),%ecx
+irmovl $323, %eax
+rmmovl %eax, 348(%ebx)
+mrmovl 348(%ebx),%ecx
+irmovl $215, %eax
+rmmovl %eax, 352(%ebx)
+mrmovl 352(%ebx),%ecx
+irmovl $867, %eax
+rmmovl %eax, 356(%ebx)
+mrmovl 356(%ebx),%ecx
+irmovl $963, %eax
+rmmovl %eax, 360(%ebx)
+mrmovl 360(%ebx),%ecx
+irmovl $627, %eax
+rmmovl %eax, 364(%ebx)
+mrmovl 364(%ebx),%ecx
+irmovl $346, %eax
+rmmovl %eax, 368(%ebx)
+mrmovl 368(%ebx),%ecx
+irmovl $240, %eax
+rmmovl %eax, 372(%ebx)
+mrmovl 372(%ebx),%ecx
+irmovl $340, %eax
+rmmovl %eax, 376(%ebx)
+mrmovl 376(%ebx),%ecx
+irmovl $64, %eax
+rmmovl %eax, 380(%ebx)
+mrmovl 380(%ebx),%ecx
+irmovl $330, %eax
+rmmovl %eax, 384(%ebx)
+mrmovl 384(%ebx),%ecx
+irmovl $2, %eax
+rmmovl %eax, 388(%ebx)
+mrmovl 388(%ebx),%ecx
+irmovl $612, %eax
+rmmovl %eax, 392(%ebx)
+mrmovl 392(%ebx),%ecx
+irmovl $897, %eax
+rmmovl %eax, 396(%ebx)
+mrmovl 396(%ebx),%ecx

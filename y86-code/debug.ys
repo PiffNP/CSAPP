@@ -1,0 +1,12 @@
+# prog6: Forwarding Priority
+  .pos 0
+  irmovl $10,%edx
+  xorl %eax, %eax
+loop: rmmovl %edx,1024(%eax)
+  mrmovl 1024(%eax), %edx
+  irmovl $32, %ebx
+  addl %ebx, %eax
+  irmovl $1024, %ebx
+  subl %eax, %ebx
+  jne loop
+  halt
