@@ -728,7 +728,8 @@ static byte_t sim_step_pipe(int max_instr, int ccount)
 #endif
 
     /* Performance monitoring */
-    if (mem_wb_curr->status != STAT_BUB && mem_wb_curr->icode != I_POP2) {
+    if (mem_wb_curr->status != STAT_BUB) {
+    //if (mem_wb_curr->status != STAT_BUB && mem_wb_curr->icode != I_POP2) {
 	starting_up = 0;
 	instructions++;
 	cycles++;
@@ -1525,6 +1526,7 @@ void do_ex_stage()
     ex_mem_next->srca = id_ex_curr->srca;
     ex_mem_next->status = id_ex_curr->status;
     ex_mem_next->stage_pc = id_ex_curr->stage_pc;
+
 }
 
 /* Functions defined using HCL */
@@ -1540,7 +1542,13 @@ void do_mem_stage()
     word_t valm = 0;
 
     mem_addr = gen_mem_addr();
+    if(ex_mem_curr->icode == I_MUTEXTEST || ex_mem_curr->icode == I_MUTEXCLEAR)
+        mem_addr = MUTEX_BYTE;
     mem_data = ex_mem_curr->vala;
+    if(ex_mem_curr->icode == I_MUTEXTEST)
+        mem_data = 1;
+    else if(ex_mem_curr->icode == I_MUTEXCLEAR)
+        mem_data = 0;
     mem_write = gen_mem_write();
     dmem_error = FALSE;
 

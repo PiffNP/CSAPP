@@ -97,17 +97,18 @@ instr_t instruction_set[] =
     {"iaddl",  HPACK(I_IADDL, F_NONE), 6, I_ARG, 2, 4, R_ARG, 1, 0 },
     {"leave",  HPACK(I_LEAVE, F_NONE), 1, NO_ARG, 0, 0, NO_ARG, 0, 0 },
     /* this is just a hack to make the I_POP2 code have an associated name */
-    {"pop2",   HPACK(I_POP2, F_NONE) , 0, NO_ARG, 0, 0, NO_ARG, 0, 0 },
+    //{"pop2",   HPACK(I_POP2, F_NONE) , 0, NO_ARG, 0, 0, NO_ARG, 0, 0 },
 
+    /* mutex instruction */
+    {"mutextest", HPACK(I_MUTEXTEST, F_NONE), 2, R_ARG, 1, 1, NO_ARG, 0, 0},
+    {"mutexclear", HPACK(I_MUTEXCLEAR, F_NONE), 1, NO_ARG, 0, 0, NO_ARG, 0, 0},
+    
     /* For allocation instructions, arg1hi indicates number of bytes */
     {".byte",  0x00, 1, I_ARG, 0, 1, NO_ARG, 0, 0 },
     {".word",  0x00, 2, I_ARG, 0, 2, NO_ARG, 0, 0 },
     {".long",  0x00, 4, I_ARG, 0, 4, NO_ARG, 0, 0 },
-    {NULL,     0   , 0, NO_ARG, 0, 0, NO_ARG, 0, 0 },
+    {NULL,     0   , 0, NO_ARG, 0, 0, NO_ARG, 0, 0 }
 
-    /* mutex instruction */
-    {"mutextest", HPACK(I_MUTEXTEST, F_NONE), 2, R_ARG, 1, 1, NO_ARG, 0, 0},
-    {"mutexclear", HPACK(I_MUTEXCLEAR, F_NONE), 1, NO_ARG, 0, 0, NO_ARG, 0, 0}
 };
 
 instr_t invalid_instr =
