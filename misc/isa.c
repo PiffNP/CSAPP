@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <sys/shm.h>
+#include <sys/sem.h>
 #include "isa.h"
 
 
@@ -148,24 +149,111 @@ mem_t init_mem(int len, bool_t m_cacheable)
     if(m_cacheable)
         result->cache = init_cache();
     result->len = len;
+    result->get_mem_lock = FALSE;
     if(!m_cacheable || !USE_SHARE_MEM)
         result->contents = (byte_t *) calloc(len, 1);
     else{
         void *shm = NULL;
-        int shmid; 
-        shmid = shmget((key_t)(MEM_SHARE_ID + local_share_id), len, 0777|IPC_CREAT);
+        int shmid;
+        int real_len = len * (sizeof(bool_t) + sizeof(byte_t) + sizeof(word_t));
+        int shmem_key = (MEM_SHARE_ID + local_share_id);
+        shmid = shmget((key_t)shmem_key, real_len, 0777|IPC_CREAT|IPC_EXCL);
+        bool_t need_init = TRUE;
         if(shmid == -1) {
-            fprintf(stderr, "shmget failed\n");
-            exit(EXIT_FAILURE);
+            if(errno != EEXIST){
+                fprintf(stderr, "shmget failed\n");
+                exit(EXIT_FAILURE);
+            }
+            shmid = shmget((key_t)shmem_key, real_len, 0777|IPC_CREAT);
+            need_init = FALSE;
         }
-        shm = shmat(shmid, 0, 0);  
+
+        shm = shmat(shmid, 0, 0);
         if(shm == (void*)-1){  
             fprintf(stderr, "shmat failed\n");  
             exit(EXIT_FAILURE);  
         }  
         //printf("\nMemory attached at %X\n", (int)shm);
         result->contents = (byte_t *)shm;
-        result->share_id = shmid;
+        result->dirty = (bool_t *)(result->contents + len);
+        result->mem_access_sem_id = (word_t *)(result->dirty + len);
+        result->share_mem_id = shmid;
+        
+        if(need_init){
+            int i;
+            for(int i = 0; i < len; i++){
+                reasult->contents[i] = 0;
+                result->dirty[i] = FALSE;
+            }
+            for(int i = 0; i < len; i += (1 << CACHE_BLOCK_SIZE_BIT)){
+                int tmp;
+                tmp = semget((key_t)i, 1, 0777|IPC_CREAT);
+                if(semid == -1){
+                    fprintf(stderr, "semget failed\n");
+                    exit(EXIT_FAILURE);
+                }
+                union semun arg;
+                arg.val = 1;
+                if (semctl(semid, 0, SETVAL, arg) == -1){
+                    fprintf(stderr, "semctl failed\n");
+                    exit(EXIT_FAILURE);
+                }
+                result->cell_access_semid[i] = tmp;
+            }
+        } else {
+            for(int i = 0; i < len; i += (1 << CACHE_BLOCK_SIZE_BIT)){
+                while(1){
+                    if(semget((key_t)i, 1, 0777) != -1)
+                        break;
+                    if(errno != ENOENT){
+                        fprintf(stderr, "semget failed\n");
+                        exit(EXIT_FAILURE);
+                    }
+                }
+            }
+        }
+        
+        int semid;
+        semid = semget((key_t)(SEM_ID), 1, 0777|IPC_CREAT|IPC_EXCL);
+        if(semid != -1){
+            union semun arg;
+            struct sembuf sop;
+            arg.val = 1;
+            if (semctl(semid, 0, SETVAL, arg) == -1){
+                fprintf(stderr, "semctl failed\n");
+                exit(EXIT_FAILURE);
+            }
+            sop.sem_num = 0;
+            sop.sem_op = 0;
+            sop.sem_flg = 0;
+            if(semop(semid, &sop, 1) == -1){
+                fprintf(stderr, "semop failed\n");
+                exit(EXIT_FAILURE);
+            }
+        } else {
+            if(errno != EEXIST){
+                fprintf(stderr, "semget failed\n");
+                exit(EXIT_FAILURE);
+            }
+            union semun arg;
+            struct semid_ds ds;
+            semid = semget((key_t)(SEM_ID), 1, 0777);
+            if (semid == -1){
+                fprintf(stderr, "semget failed\n");
+                exit(EXIT_FAILURE);
+            }
+            arg.buf = &ds;
+            while(true){
+                if (semctl(semid, 0, IPC_STAT, arg) == -1){
+                    fprintf(stderr, "semctl failed\n");
+                    exit(EXIT_FAILURE);
+                }
+                if(ds.sem_otime != 0)
+                    break;
+            }
+        }
+        result->mem_access_sem_id = semid;
+
         local_share_id++;
 #ifdef C_DEBUG
         getchar();
@@ -190,11 +278,16 @@ void free_mem(mem_t m)
         free_cache(m->cache);
     }
     if(m->cacheable && USE_SHARE_MEM){
+        semctl(m->mem_access_sem_id, 0, IPC_RMID);
+        for(int i = 0; i < m->len; i += (1 << CACHE_BLOCK_SIZE_BIT)){
+            semctl(m->cell_access_semid[i], 0, IPC_RMID);
+        }
+
         if(shmdt((void *)m->contents) == -1){
             fprintf(stderr, "shmdt failed\n");  
             exit(EXIT_FAILURE);  
         }  
-        if(shmctl(m->share_id, IPC_RMID, 0) == -1){  
+        if(shmctl(m->share_mem_id, IPC_RMID, 0) == -1){  
             fprintf(stderr, "shmctl(IPC_RMID) failed\n");  
             exit(EXIT_FAILURE);  
         }
@@ -573,10 +666,13 @@ void load_cache(mem_t m, cache_t c, word_t pos){
     }
     if(x->dirty[x->hand]){
         int i;
+        write_back_cache(m, x->tag[x->hand], group_id, x->contents[x->hand]);
+        /*
         word_t old_pos = (x->tag[x->hand] << (CACHE_BLOCK_SIZE_BIT + CACHE_GROUP_NUM_BIT))
                         + (group_id << CACHE_BLOCK_SIZE_BIT);
         for (i = (1 << CACHE_BLOCK_SIZE_BIT) - 1; i >= 0; i--)
 	        m->contents[old_pos + i] = (x->contents[x->hand] >> (i << 3)) & ((1 << 8) - 1);
+        */
     }
     word_t val = 0;
     int i;
@@ -589,6 +685,12 @@ void load_cache(mem_t m, cache_t c, word_t pos){
     x->hand = ((x->hand + 1) & ((1 << CACHE_GROUP_SIZE_BIT) - 1));
 }
 
+void write_back_cache(mem_t m, word_t tag, word_t group_id, word_t val){
+    word_t pos = (tag << (CACHE_BLOCK_SIZE_BIT + CACHE_GROUP_NUM_BIT))
+                    + (group_id << CACHE_BLOCK_SIZE_BIT);
+    for (i = (1 << CACHE_BLOCK_SIZE_BIT) - 1; i >= 0; i--)
+	    m->contents[pos + i] = (val >> (i << 3)) & ((1 << 8) - 1);
+}
 bool_t cache_get_byte_val(cache_t c, word_t pos, byte_t *dest){
     int offset = pos & ((1 << CACHE_BLOCK_SIZE_BIT) - 1);
     int group_id = (pos >> CACHE_BLOCK_SIZE_BIT) & ((1 << CACHE_GROUP_NUM_BIT) - 1);
@@ -1294,10 +1396,10 @@ stat_t step_state(state_ptr s, FILE *error_file)
 	    if (error_file)
 		fprintf(error_file,
 			"PC = 0x%x, Invalid stack address 0x%x\n",
-			s->pc, dval);
+			s->pc, MUTEX_BYTE);
 	    return STAT_ADR;
 	}
-    set_word_val(s->m, MUTEX_BYTE, 1);
+    val = set_word_val(s->m, MUTEX_BYTE, 1);
     // add sem.V
 	set_reg_val(s->r, hi1, val);
 	s->pc = ftpc;

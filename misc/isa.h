@@ -78,6 +78,7 @@ instr_ptr bad_instr();
 
 /***********  Implementation of Memory *****************/
 #define MEM_SHARE_ID 1234
+#define SEM_ID 100000
 typedef unsigned char byte_t;
 typedef int word_t;
 
@@ -87,9 +88,13 @@ typedef struct {
   int len;
   /* For register it is set to be zero  */
   int cacheable;
-  int share_id;
+  int share_mem_id;
+  int mem_access_sem_id;
   word_t maxaddr;
   byte_t *contents;
+  bool_t *dirty;
+  word_t *cell_access_semid;
+  bool_t get_mem_lock;
   struct m_cache *cache;
 } mem_rec, *mem_t;
 
@@ -144,7 +149,6 @@ typedef struct{
     int hand;
     word_t *tag;
     word_t *contents;
-    bool_t *dirty;
     bool_t *last_access;
 } cache_group_rec, *cache_group_t;
 typedef struct m_cache{
@@ -154,6 +158,7 @@ typedef struct m_cache{
 
 cache_t init_cache();
 void free_cache(cache_t c);
+void write_back_cache(mem_t m, word_t pos, word_t val);
 void load_cache(mem_t m, cache_t c, word_t pos);
 bool_t cache_get_byte_val(cache_t c, word_t pos, byte_t *dest);
 bool_t cache_get_word_val(cache_t c, word_t pos, word_t *dest);
