@@ -2,16 +2,18 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <string.h>
+#include <sys/shm.h>
 #include "isa.h"
 
 
 /* Are we running in GUI mode? */
 extern int gui_mode;
-
+int local_share_id = 0;
 /* Bytes Per Line = Block size of memory */
 #define BPL 32
 //#define C_DEBUG
 #define OP_B 900
+bool_t USE_SHARE_MEM = FALSE;
 struct {
     char *name;
     int id;
@@ -101,7 +103,11 @@ instr_t instruction_set[] =
     {".byte",  0x00, 1, I_ARG, 0, 1, NO_ARG, 0, 0 },
     {".word",  0x00, 2, I_ARG, 0, 2, NO_ARG, 0, 0 },
     {".long",  0x00, 4, I_ARG, 0, 4, NO_ARG, 0, 0 },
-    {NULL,     0   , 0, NO_ARG, 0, 0, NO_ARG, 0, 0 }
+    {NULL,     0   , 0, NO_ARG, 0, 0, NO_ARG, 0, 0 },
+
+    /* mutex instruction */
+    {"mutextest", HPACK(I_MUTEXTEST, F_NONE), 2, R_ARG, 1, 1, NO_ARG, 0, 0},
+    {"mutexclear", HPACK(I_MUTEXCLEAR, F_NONE), 1, NO_ARG, 0, 0, NO_ARG, 0, 0}
 };
 
 instr_t invalid_instr =
@@ -141,7 +147,34 @@ mem_t init_mem(int len, bool_t m_cacheable)
     if(m_cacheable)
         result->cache = init_cache();
     result->len = len;
-    result->contents = (byte_t *) calloc(len, 1);
+    if(!m_cacheable || !USE_SHARE_MEM)
+        result->contents = (byte_t *) calloc(len, 1);
+    else{
+        void *shm = NULL;
+        int shmid; 
+        shmid = shmget((key_t)(MEM_SHARE_ID + local_share_id), len, 0777|IPC_CREAT);
+        if(shmid == -1) {
+            fprintf(stderr, "shmget failed\n");
+            exit(EXIT_FAILURE);
+        }
+        shm = shmat(shmid, 0, 0);  
+        if(shm == (void*)-1){  
+            fprintf(stderr, "shmat failed\n");  
+            exit(EXIT_FAILURE);  
+        }  
+        //printf("\nMemory attached at %X\n", (int)shm);
+        result->contents = (byte_t *)shm;
+        result->share_id = shmid;
+        local_share_id++;
+#ifdef C_DEBUG
+        getchar();
+        if(result->contents[0] != 12)
+        result->contents[0] = 12;
+        else
+            puts("hhh");
+        getchar();
+#endif
+    }
     return result;
 }
 
@@ -152,9 +185,21 @@ void clear_mem(mem_t m)
 
 void free_mem(mem_t m)
 {
-    if(m->cacheable)
+    if(m->cacheable){
         free_cache(m->cache);
-    free((void *) m->contents);
+    }
+    if(m->cacheable && USE_SHARE_MEM){
+        if(shmdt((void *)m->contents) == -1){
+            fprintf(stderr, "shmdt failed\n");  
+            exit(EXIT_FAILURE);  
+        }  
+        if(shmctl(m->share_id, IPC_RMID, 0) == -1){  
+            fprintf(stderr, "shmctl(IPC_RMID) failed\n");  
+            exit(EXIT_FAILURE);  
+        }
+    }
+    else
+        free((void *) m->contents);
     free((void *) m);
 }
 
@@ -939,7 +984,7 @@ stat_t step_state(state_ptr s, FILE *error_file)
     need_regids =
 	(hi0 == I_RRMOVL || hi0 == I_ALU || hi0 == I_PUSHL ||
 	 hi0 == I_POPL || hi0 == I_IRMOVL || hi0 == I_RMMOVL ||
-	 hi0 == I_MRMOVL || hi0 == I_IADDL);
+	 hi0 == I_MRMOVL || hi0 == I_IADDL || hi0 == I_MUTEXTEST);
 
     if (need_regids) {
 	ok1 = get_byte_val(s->m, ftpc, &byte1);
@@ -1230,6 +1275,43 @@ stat_t step_state(state_ptr s, FILE *error_file)
 	s->cc = compute_cc(A_ADD, cval, argB);
 	s->pc = ftpc;
 	break;
+    case I_MUTEXTEST:
+	if (!ok1) {
+	    if (error_file)
+		fprintf(error_file,
+			"PC = 0x%x, Invalid instruction address\n", s->pc);
+	    return STAT_ADR;
+	}
+	if (!reg_valid(hi1)) {
+	    if (error_file)
+		fprintf(error_file,
+			"PC = 0x%x, Invalid register ID 0x%.1x\n", s->pc, hi1);
+	    return STAT_INS;
+	}
+    //add sem.P
+	if (!get_word_val(s->m, MUTEX_BYTE, &val)) {
+	    if (error_file)
+		fprintf(error_file,
+			"PC = 0x%x, Invalid stack address 0x%x\n",
+			s->pc, dval);
+	    return STAT_ADR;
+	}
+    set_word_val(s->m, MUTEX_BYTE, 1);
+    // add sem.V
+	set_reg_val(s->r, hi1, val);
+	s->pc = ftpc;
+	break;
+    case I_MUTEXCLEAR:
+	if (!set_word_val(s->m, MUTEX_BYTE, 0)) {
+	    if (error_file)
+		fprintf(error_file,
+			"PC = 0x%x, Invalid stack address 0x%x\n",
+			s->pc, dval);
+	    return STAT_ADR;
+	}
+	s->pc = ftpc;
+	break;
+
     default:
 	if (error_file)
 	    fprintf(error_file,

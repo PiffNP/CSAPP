@@ -25,7 +25,7 @@ typedef enum { R_ARG, M_ARG, I_ARG, NO_ARG } arg_t;
 /* Different instruction types */
 typedef enum { I_HALT, I_NOP, I_RRMOVL, I_IRMOVL, I_RMMOVL, I_MRMOVL,
 	       I_ALU, I_JMP, I_CALL, I_RET, I_PUSHL, I_POPL,
-	       I_IADDL, I_LEAVE, I_POP2 } itype_t;
+	       I_IADDL, I_LEAVE, I_POP2, I_MUTEXTEST, I_MUTEXCLEAR } itype_t;
 
 /* Different ALU operations */
 typedef enum { A_ADD, A_SUB, A_AND, A_XOR, A_NONE } alu_t;
@@ -77,6 +77,7 @@ instr_ptr find_instr(char *name);
 instr_ptr bad_instr();
 
 /***********  Implementation of Memory *****************/
+#define MEM_SHARE_ID 1234
 typedef unsigned char byte_t;
 typedef int word_t;
 
@@ -86,6 +87,7 @@ typedef struct {
   int len;
   /* For register it is set to be zero  */
   int cacheable;
+  int share_id;
   word_t maxaddr;
   byte_t *contents;
   struct m_cache *cache;
@@ -102,6 +104,9 @@ void clear_mem(mem_t m);
 mem_t copy_mem(mem_t oldm);
 /* Print the differences between two memories */
 bool_t diff_mem(mem_t oldm, mem_t newm, FILE *outfile);
+
+/* special byte for mutex*/
+#define MUTEX_BYTE (MEM_SIZE - 8)
 
 /* How big should the memory be? */
 #ifdef BIG_MEM
@@ -131,7 +136,6 @@ bool_t set_word_val(mem_t m, word_t pos, word_t val);
 void dump_memory(FILE *outfile, mem_t m, word_t pos, int cnt);
 
 /********** Implementation of Cache *************/
-#define CACHE_SHARE_ID 1234
 #define CACHE_GROUP_NUM_BIT 3
 #define CACHE_GROUP_SIZE_BIT 2
 #define CACHE_BLOCK_SIZE_BIT 2
