@@ -77,8 +77,18 @@ instr_ptr find_instr(char *name);
 instr_ptr bad_instr();
 
 /***********  Implementation of Memory *****************/
-#define MEM_SHARE_ID 1234
+#define MEM_SHARE_ID 3456
 #define SEM_ID 100000
+void semaphore_p(int semid);  
+void semaphore_v(int semid);
+union semun {
+             int     val;            /* value for SETVAL */
+             struct  semid_ds *buf;  /* buffer for IPC_STAT & IPC_SET */
+             unsigned short *array;         /* array for GETALL & SETALL */
+     };
+
+
+
 typedef unsigned char byte_t;
 typedef int word_t;
 
@@ -93,9 +103,13 @@ typedef struct {
   word_t maxaddr;
   byte_t *contents;
   bool_t *dirty;
+  bool_t *owner;
   word_t *cell_access_semid;
   bool_t get_mem_lock;
   struct m_cache *cache;
+  bool_t proc_id;
+  word_t *proc_pid;
+  word_t *proc_query;
 } mem_rec, *mem_t;
 
 /* Create a memory with len bytes */
@@ -158,12 +172,12 @@ typedef struct m_cache{
 
 cache_t init_cache();
 void free_cache(cache_t c);
-void write_back_cache(mem_t m, word_t pos, word_t val);
+void write_back_cache(mem_t m, word_t tag, word_t group_id, word_t val);
 void load_cache(mem_t m, cache_t c, word_t pos);
 bool_t cache_get_byte_val(cache_t c, word_t pos, byte_t *dest);
-bool_t cache_get_word_val(cache_t c, word_t pos, word_t *dest);
-bool_t cache_set_byte_val(cache_t c, word_t pos, byte_t val);
-bool_t cache_set_word_val(cache_t c, word_t pos, word_t val);
+//bool_t cache_get_word_val(cache_t c, word_t pos, word_t *dest);
+bool_t cache_set_byte_val(cache_t c, word_t pos, byte_t val, bool_t *dirty);
+//bool_t cache_set_word_val(cache_t c, word_t pos, word_t val);
 void cache_dump(cache_t c);
 
 /********** Implementation of Register File *************/

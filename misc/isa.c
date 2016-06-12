@@ -1,7 +1,10 @@
+#define _POSIX_C_SOURCE 200112L
 #include <stdlib.h>
 #include <ctype.h>
 #include <stdio.h>
+#include <errno.h>
 #include <string.h>
+#include <signal.h>
 #include <sys/shm.h>
 #include <sys/sem.h>
 #include "isa.h"
@@ -13,8 +16,8 @@ int local_share_id = 0;
 /* Bytes Per Line = Block size of memory */
 #define BPL 32
 //#define C_DEBUG
-#define OP_B 900
-bool_t USE_SHARE_MEM = FALSE;
+#define OP_B 1024
+bool_t USE_SHARE_MEM = TRUE;
 struct {
     char *name;
     int id;
@@ -141,6 +144,10 @@ instr_ptr bad_instr()
 }
 
 
+void handler(int sig, siginfo_t *ptr, void *nop){
+    printf("ggg %d\n", ((mem_t)(ptr->si_value.sival_ptr))->len);
+}
+
 mem_t init_mem(int len, bool_t m_cacheable)
 {
     mem_t result = (mem_t) malloc(sizeof(mem_rec));
@@ -155,17 +162,17 @@ mem_t init_mem(int len, bool_t m_cacheable)
     else{
         void *shm = NULL;
         int shmid;
-        int real_len = len * (sizeof(bool_t) + sizeof(byte_t) + sizeof(word_t));
+        int real_len = len * (2 * sizeof(bool_t) + sizeof(byte_t)) + 2 * sizeof(word_t);
         int shmem_key = (MEM_SHARE_ID + local_share_id);
         shmid = shmget((key_t)shmem_key, real_len, 0777|IPC_CREAT|IPC_EXCL);
-        bool_t need_init = TRUE;
+        result->proc_id = TRUE;
         if(shmid == -1) {
             if(errno != EEXIST){
                 fprintf(stderr, "shmget failed\n");
                 exit(EXIT_FAILURE);
             }
             shmid = shmget((key_t)shmem_key, real_len, 0777|IPC_CREAT);
-            need_init = FALSE;
+            result->proc_id = FALSE;
         }
 
         shm = shmat(shmid, 0, 0);
@@ -176,55 +183,98 @@ mem_t init_mem(int len, bool_t m_cacheable)
         //printf("\nMemory attached at %X\n", (int)shm);
         result->contents = (byte_t *)shm;
         result->dirty = (bool_t *)(result->contents + len);
-        result->mem_access_sem_id = (word_t *)(result->dirty + len);
+        result->owner = (bool_t *)(result->dirty + len);
+        result->proc_pid = (word_t *)(result->owner + len);
+        result->cell_access_semid = (word_t *)calloc(len, sizeof(word_t));
         result->share_mem_id = shmid;
+        result->proc_pid[result->proc_id] = getpid();
         
-        if(need_init){
+        if(result->proc_id){
+            struct sigaction m_action;
+            m_action.sa_sigaction = handler;
+            m_action.sa_flags = SA_SIGINFO;
+           
+            if(sigaction(33, &m_action, NULL) == -1){
+                fprintf(stderr, "signal handler failed\n");
+                exit(EXIT_FAILURE);
+            } 
+            while(1);
+        } else {
+            union sigval m_sig;
+            m_sig.sival_ptr = result;
+            sigqueue(result->proc_pid[1 - result->proc_id], 33, m_sig);
+            while(1);
+        }
+        //int kk;
+        //for(kk = 0; kk < 2; kk++)
+        //    printf("%d ", result->proc_pid[kk]);
+        //puts("");
+        //getchar();
+        
+        if(result->proc_id){
             int i;
-            for(int i = 0; i < len; i++){
-                reasult->contents[i] = 0;
-                result->dirty[i] = FALSE;
-            }
-            for(int i = 0; i < len; i += (1 << CACHE_BLOCK_SIZE_BIT)){
+            for(i = 0; i < len; i += (1 << CACHE_BLOCK_SIZE_BIT)){
                 int tmp;
-                tmp = semget((key_t)i, 1, 0777|IPC_CREAT);
-                if(semid == -1){
+                tmp = semget((key_t)(i + 1 + (local_share_id << 16)), 1, 0777|IPC_CREAT|IPC_EXCL);
+                //if(i == 0){
+                //    printf("%d\n", tmp);
+                //    getchar();
+                //}
+                if(tmp == -1){
                     fprintf(stderr, "semget failed\n");
                     exit(EXIT_FAILURE);
                 }
                 union semun arg;
-                arg.val = 1;
-                if (semctl(semid, 0, SETVAL, arg) == -1){
+                arg.val = 0;
+                if (semctl(tmp, 0, SETVAL, arg) == -1){
                     fprintf(stderr, "semctl failed\n");
                     exit(EXIT_FAILURE);
                 }
                 result->cell_access_semid[i] = tmp;
+                struct sembuf sop;
+                sop.sem_num = 0;
+                sop.sem_op = 1;
+                sop.sem_flg = 0;
+                if(semop(tmp, &sop, 1) == -1){
+                    fprintf(stderr, "semop failed\n");
+                    exit(EXIT_FAILURE);
+                }
             }
         } else {
-            for(int i = 0; i < len; i += (1 << CACHE_BLOCK_SIZE_BIT)){
+            union semun arg;
+            struct semid_ds ds;
+            int i;
+            for(i = 0; i < len; i += (1 << CACHE_BLOCK_SIZE_BIT)){
+                int semid;
                 while(1){
-                    if(semget((key_t)i, 1, 0777) != -1)
+                    semid = semget((key_t)(i + 1 + (local_share_id << 16)), 1, 0777);
+                    if(semid != -1)
                         break;
-                    if(errno != ENOENT){
-                        fprintf(stderr, "semget failed\n");
+                }
+                arg.buf = &ds;
+                while(1){
+                    if (semctl(semid, 0, IPC_STAT, arg) == -1){
+                        fprintf(stderr, "semctl failed\n");
                         exit(EXIT_FAILURE);
                     }
+                    if(ds.sem_otime != 0)
+                        break;
                 }
             }
         }
         
         int semid;
-        semid = semget((key_t)(SEM_ID), 1, 0777|IPC_CREAT|IPC_EXCL);
+        semid = semget((key_t)(SEM_ID + local_share_id), 1, 0777|IPC_CREAT|IPC_EXCL);
         if(semid != -1){
             union semun arg;
             struct sembuf sop;
-            arg.val = 1;
+            arg.val = 0;
             if (semctl(semid, 0, SETVAL, arg) == -1){
                 fprintf(stderr, "semctl failed\n");
                 exit(EXIT_FAILURE);
             }
             sop.sem_num = 0;
-            sop.sem_op = 0;
+            sop.sem_op = 1;
             sop.sem_flg = 0;
             if(semop(semid, &sop, 1) == -1){
                 fprintf(stderr, "semop failed\n");
@@ -237,13 +287,13 @@ mem_t init_mem(int len, bool_t m_cacheable)
             }
             union semun arg;
             struct semid_ds ds;
-            semid = semget((key_t)(SEM_ID), 1, 0777);
-            if (semid == -1){
-                fprintf(stderr, "semget failed\n");
-                exit(EXIT_FAILURE);
+            while(1){
+                semid = semget((key_t)(SEM_ID), 1, 0777);
+                if (semid != -1)
+                    break;
             }
             arg.buf = &ds;
-            while(true){
+            while(1){
                 if (semctl(semid, 0, IPC_STAT, arg) == -1){
                     fprintf(stderr, "semctl failed\n");
                     exit(EXIT_FAILURE);
@@ -255,14 +305,7 @@ mem_t init_mem(int len, bool_t m_cacheable)
         result->mem_access_sem_id = semid;
 
         local_share_id++;
-#ifdef C_DEBUG
-        getchar();
-        if(result->contents[0] != 12)
-        result->contents[0] = 12;
-        else
-            puts("hhh");
-        getchar();
-#endif
+
     }
     return result;
 }
@@ -440,6 +483,28 @@ int load_mem(mem_t m, FILE *infile, int report_error)
     return byte_cnt;
 }
 
+void semaphore_p(int semid){  
+    struct sembuf sop;  
+    sop.sem_num = 0;  
+    sop.sem_op = -1; 
+    sop.sem_flg = SEM_UNDO;  
+    if(semop(semid, &sop, 1) == -1)  {  
+        fprintf(stderr, "semaphore_p failed%d\n", errno);  
+        exit(EXIT_FAILURE);
+    }  
+}  
+  
+void semaphore_v(int semid)  {  
+    struct sembuf sop;  
+    sop.sem_num = 0;  
+    sop.sem_op = 1; 
+    sop.sem_flg = SEM_UNDO;  
+    if(semop(semid, &sop, 1) == -1)  {  
+        fprintf(stderr, "semaphore_v failed\n");  
+        exit(EXIT_FAILURE);
+    }  
+}
+
 bool_t get_byte_val(mem_t m, word_t pos, byte_t *dest)
 {
 #ifdef C_DEBUG
@@ -447,19 +512,29 @@ bool_t get_byte_val(mem_t m, word_t pos, byte_t *dest)
         printf("Before get_byte_val pos:%d\n", pos);
         cache_dump(m->cache);
     }
-#endif
+#endif 
     if (pos < 0 || pos >= m->len)
-	return FALSE;
+	    return FALSE;
     if(!m->cacheable){
         *dest = m->contents[pos];
     } else {
-        if(!cache_get_byte_val(m->cache, pos, dest)){
-#ifdef C_DEBUG
-            puts("cache miss");
-#endif
-            *dest = m->contents[pos];
-            load_cache(m, m->cache, pos / 4 * 4);
+        word_t word_pos = pos / 4 * 4;
+        int semid = m->cell_access_semid[word_pos];
+
+        semaphore_p(semid);
+        bool_t need_flush = (m->dirty[pos] && m->owner[pos] != m->proc_id);
+        if(need_flush){
+            //send signal to the other proc and wait
+            byte_t val = m->contents[pos];
+            while(!cache_set_byte_val(m->cache, pos, val, &m->dirty[pos]))
+                load_cache(m, m->cache, word_pos);
+            m->dirty[pos] = FALSE;
+        } else {
+            while(!cache_get_byte_val(m->cache, pos, dest)){
+                load_cache(m, m->cache, word_pos);
+            }
         }
+        semaphore_v(semid);
     }
 #ifdef C_DEBUG
     if(m->cacheable && pos >= OP_B){
@@ -487,23 +562,12 @@ bool_t get_word_val(mem_t m, word_t pos, word_t *dest)
         for (i = 0; i < 4; i++)
 	        val = val | m->contents[pos+i]<<(8*i);
         *dest = val;
-    } else if (pos % 4 == 0){
-        while(!cache_get_word_val(m->cache, pos, dest)){
-#ifdef C_DEBUG
-            puts("cache miss");
-#endif
-            load_cache(m, m->cache, pos);
-        }
     } else {
         val = 0;
         byte_t tmp = 0;
         for(i = 0; i < 4; i++){
-            if(!cache_get_byte_val(m->cache, pos + i, &tmp)){
-#ifdef C_DEBUG
-            puts("cache miss");
-#endif
-                val = val | m->contents[pos+ i] << (8 * i);
-                load_cache(m, m->cache, (pos + i) / 4 * 4);
+            if(!get_byte_val(m, pos + i, &tmp)){
+                return FALSE;
             } else {
                 val = val | tmp << (8 * i);
             }
@@ -532,12 +596,16 @@ bool_t set_byte_val(mem_t m, word_t pos, byte_t val)
     if(!m->cacheable){
         m->contents[pos] = val;
     } else {
-        while(!cache_set_byte_val(m->cache, pos, val)){
-#ifdef C_DEBUG
-            puts("cache miss");
-#endif
-            load_cache(m, m->cache, pos / 4 * 4);
-        }
+        word_t word_pos = pos / 4 * 4;
+        int semid = m->cell_access_semid[word_pos];
+
+        semaphore_p(semid);
+        
+        m->owner[pos] = m->proc_id;
+        while(!cache_set_byte_val(m->cache, pos, val, &m->dirty[pos]))
+            load_cache(m, m->cache, word_pos);
+
+        semaphore_v(semid);
     }
 #ifdef C_DEBUG
     if(m->cacheable && pos >= OP_B){
@@ -564,21 +632,11 @@ bool_t set_word_val(mem_t m, word_t pos, word_t val)
 	        m->contents[pos+i] = val & 0xFF;
 	        val >>= 8;
         }
-    } else if (pos % 4 == 0){
-        while(!cache_set_word_val(m->cache, pos, val)){
-#ifdef C_DEBUG
-            puts("cache miss");
-#endif
-            load_cache(m, m->cache, pos);
-        }
     } else {
         for (i = 0; i < 4; i++){
             byte_t tmp = ((val >> (i << 3)) & ((1 << 8) - 1));
-            while(!cache_set_byte_val(m->cache, pos + i, tmp)){
-#ifdef C_DEBUG
-            puts("cache miss");
-#endif
-                load_cache(m, m->cache, (pos + i) / 4 * 4);
+            if(!set_byte_val(m, pos + i, tmp)){
+                return FALSE;
             }
         }
     }
@@ -626,12 +684,10 @@ cache_t init_cache(){
         x->hand = 0;
         x->tag = (word_t *) calloc(x->group_size, sizeof(word_t));
         x->contents = (word_t *) calloc(x->group_size, sizeof(word_t));
-        x->dirty = (bool_t *) calloc(x->group_size, sizeof(bool_t));
         x->last_access = (bool_t *) calloc(x->group_size, sizeof(bool_t));
         for(j = 0; j < x->group_size; j++){
             x->tag[j] = -1;
             x->contents[j] = 0;
-            x->dirty[j] = 0;
             x->last_access[j] = 0;
         }
     }
@@ -644,7 +700,6 @@ void free_cache(cache_t c){
     for(i = 0; i < c->group_num; i++){
         free((void *)c->cache_group[i].tag);
         free((void *)c->cache_group[i].contents);
-        free((void *)c->cache_group[i].dirty);
         free((void *)c->cache_group[i].last_access);
     }
     free((void *) c->cache_group);
@@ -664,23 +719,25 @@ void load_cache(mem_t m, cache_t c, word_t pos){
         x->last_access[x->hand] = FALSE;
         x->hand = ((x->hand + 1) & ((1 << CACHE_GROUP_SIZE_BIT) - 1));
     }
+
+    if(x->tag[x->hand] > 0)
+        write_back_cache(m, x->tag[x->hand], group_id, x->contents[x->hand]);
+    
+    /*
     if(x->dirty[x->hand]){
         int i;
-        write_back_cache(m, x->tag[x->hand], group_id, x->contents[x->hand]);
-        /*
         word_t old_pos = (x->tag[x->hand] << (CACHE_BLOCK_SIZE_BIT + CACHE_GROUP_NUM_BIT))
                         + (group_id << CACHE_BLOCK_SIZE_BIT);
         for (i = (1 << CACHE_BLOCK_SIZE_BIT) - 1; i >= 0; i--)
 	        m->contents[old_pos + i] = (x->contents[x->hand] >> (i << 3)) & ((1 << 8) - 1);
-        */
     }
+    */
     word_t val = 0;
     int i;
     for (i = (1 << CACHE_BLOCK_SIZE_BIT) - 1; i >= 0; i--)
 	    val = val | (m->contents[pos + i] << (i << 3));
     x->contents[x->hand] = val;
     x->tag[x->hand] = tag;
-    x->dirty[x->hand] = FALSE;
     x->last_access[x->hand] = TRUE;
     x->hand = ((x->hand + 1) & ((1 << CACHE_GROUP_SIZE_BIT) - 1));
 }
@@ -688,8 +745,13 @@ void load_cache(mem_t m, cache_t c, word_t pos){
 void write_back_cache(mem_t m, word_t tag, word_t group_id, word_t val){
     word_t pos = (tag << (CACHE_BLOCK_SIZE_BIT + CACHE_GROUP_NUM_BIT))
                     + (group_id << CACHE_BLOCK_SIZE_BIT);
+    int semid = m->cell_access_semid[pos];
+    semaphore_p(semid);
+    int i;
     for (i = (1 << CACHE_BLOCK_SIZE_BIT) - 1; i >= 0; i--)
-	    m->contents[pos + i] = (val >> (i << 3)) & ((1 << 8) - 1);
+        if(m->dirty[pos + i] && m->owner[pos + i] == m->proc_id)
+	        m->contents[pos + i] = (val >> (i << 3)) & ((1 << 8) - 1);
+    semaphore_v(semid);
 }
 bool_t cache_get_byte_val(cache_t c, word_t pos, byte_t *dest){
     int offset = pos & ((1 << CACHE_BLOCK_SIZE_BIT) - 1);
@@ -709,7 +771,7 @@ bool_t cache_get_byte_val(cache_t c, word_t pos, byte_t *dest){
     }while(t_hand != x->hand);
     return FALSE;
 }
-
+/*
 bool_t cache_get_word_val(cache_t c, word_t pos, word_t *dest)
 {
     int offset = pos & ((1 << CACHE_BLOCK_SIZE_BIT) - 1);
@@ -730,8 +792,8 @@ bool_t cache_get_word_val(cache_t c, word_t pos, word_t *dest)
     }while(t_hand != x->hand);
     return FALSE;
 }
-
-bool_t cache_set_byte_val(cache_t c, word_t pos, byte_t val)
+*/
+bool_t cache_set_byte_val(cache_t c, word_t pos, byte_t val, bool_t *dirty)
 {   
     int offset = pos & ((1 << CACHE_BLOCK_SIZE_BIT) - 1);
     int group_id = (pos >> CACHE_BLOCK_SIZE_BIT) & ((1 << CACHE_GROUP_NUM_BIT) - 1);
@@ -745,14 +807,14 @@ bool_t cache_set_byte_val(cache_t c, word_t pos, byte_t val)
             x->contents[t_hand] |= (((word_t)val) << (offset << 3));
             x->last_access[t_hand] = TRUE;
             if(old_content != x->contents[t_hand])
-                x->dirty[t_hand] = TRUE;
+                *dirty = TRUE;
             return TRUE;
         }
         t_hand = (t_hand + 1) & ((1 << CACHE_GROUP_SIZE_BIT) - 1);
     }while(t_hand != x->hand);
     return FALSE;
 }
-
+/*
 bool_t cache_set_word_val(cache_t c, word_t pos, word_t val)
 {
     int offset = pos & ((1 << CACHE_BLOCK_SIZE_BIT) - 1);
@@ -777,7 +839,7 @@ bool_t cache_set_word_val(cache_t c, word_t pos, word_t val)
     return FALSE;
 
 }
-
+*/
 void cache_dump(cache_t c){
     cache_t result = (cache_t) malloc(sizeof(cache_rec));
     result->group_num = 1 << CACHE_GROUP_NUM_BIT;
@@ -788,8 +850,8 @@ void cache_dump(cache_t c){
         cache_group_t x = &c->cache_group[i];
         printf("Hand: %d\n", x->hand);
         for(j = 0; j < x->group_size; j++){
-            printf("tag: %d last_access:%d dirty: %d val:%08x addr:%x\n", 
-                    x->tag[j], x->last_access[j], x->dirty[j], x->contents[j],
+            printf("tag: %d last_access:%d val:%08x addr:%x\n", 
+                    x->tag[j], x->last_access[j], x->contents[j],
                     (x->tag[j] != -1? x->tag[j] * 32 + i * 4: 0));
         }
     }

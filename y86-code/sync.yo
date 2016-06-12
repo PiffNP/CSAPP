@@ -1,5 +1,0 @@
-  0x000:              |  .pos 0
-  0x000: e00f         |   mutextest %eax
-  0x002: e00f         |   mutextest %eax
-  0x004: f0           |   mutexclear
-  0x005: 00           |   halt
